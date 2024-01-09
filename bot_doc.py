@@ -28,7 +28,7 @@ def names():
 
 def paths_pdf(name):
     pp = '/data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
-    base_path = pp + f'\\{name}'
+    base_path = pp + f'/{name}'
     paths = glob(base_path + '/*pdf')
     pdf_list = []
     for f in paths:
