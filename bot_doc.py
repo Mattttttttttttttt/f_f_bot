@@ -24,7 +24,7 @@ def names():
         for j in range(len(names_2)):
             names[i] = names[i] + names_2[len(names_2) - 1 - j]
         names[i] = names[i][1:len(names[i])]
-    return(names)
+    return(names, paths)
 
 def paths_pdf(name):
     pp = '/data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
@@ -92,7 +92,8 @@ def func2(message, paths, pdf_list):
 def send_welcome(message):
     bot.send_message(chat_id = message.chat.id, text = 'Приветсвую! Бот имеет собственную базу данных, за вами только выбрать нужный раздел и искать в нём либо по содержанию файлов.\n Совет ищите по точной ключевой фразе или одному слову. Условно поиск рецепта пирога по заданному "мука яйца соль" вряд-ли что найдёт. А вот по "добавьте 20г муки" найти шансов больше))')
     markup = types.InlineKeyboardMarkup(row_width=1)
-    name = names()
+    name, paths = names()
+    bot.send_message(chat_id = message.chat_id, text = str(paths))
     for i in range(len(name)):
         if not name[i] == 'drafts':
             btn = types.InlineKeyboardButton(text = name[i], callback_data = name[i])
