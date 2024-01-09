@@ -26,10 +26,13 @@ def names():
         names[i] = names[i][1:len(names[i])]
     return(names, path)
 
-def paths_pdf(name):
+def paths_pdf(name, id):
     pp = '/data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
+    bot.send_message(id, text = 'pp' + str(pp))
     base_path = pp + f'/{name}'
+    bot.send_message(id, text = 'base_path' + str(base_path))
     paths = glob(base_path + '/*pdf')
+
     pdf_list = []
     for f in paths:
         pdf_list.append(PyPDF2.PdfReader(f,'rb'))
@@ -108,8 +111,8 @@ def finding(c):
     chat_id = c.message.chat.id
     name = c.data
     bot.send_message(chat_id, 'Введите ключевое слово или фразу для поиска')
-    path, pdf = paths_pdf(name)
-    bot.send_message(chat_id, str(path))
+    path, pdf = paths_pdf(name, chat_id)
+    bot.send_message(chat_id, text = 'path' + str(path))
     bot.register_next_step_handler_by_chat_id(chat_id = chat_id, callback = func2, paths = path, pdf_list = pdf)
 """"@bot.message_handler(commands = ['инструкция'])
 def send_instruction(message):
