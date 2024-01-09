@@ -109,6 +109,7 @@ def finding(c):
     name = c.data
     bot.send_message(chat_id, 'Введите ключевое слово или фразу для поиска')
     path, pdf = paths_pdf(name)
+    bot.send_message(chat_id, str(path))
     bot.register_next_step_handler_by_chat_id(chat_id = chat_id, callback = func2, paths = path, pdf_list = pdf)
 """"@bot.message_handler(commands = ['инструкция'])
 def send_instruction(message):
