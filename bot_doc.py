@@ -93,7 +93,7 @@ def send_welcome(message):
     bot.send_message(chat_id = message.chat.id, text = 'Приветсвую! Бот имеет собственную базу данных, за вами только выбрать нужный раздел и искать в нём либо по содержанию файлов.\n Совет ищите по точной ключевой фразе или одному слову. Условно поиск рецепта пирога по заданному "мука яйца соль" вряд-ли что найдёт. А вот по "добавьте 20г муки" найти шансов больше))')
     markup = types.InlineKeyboardMarkup(row_width=1)
     name, paths = names()
-    bot.send_message(chat_id = message.chat.id, text = str(paths))
+    bot.send_document(chat_id = message.chat.id, document = open('\data\ЦС\Лабораторная работа №4 АЦП.pdf', 'rb'))
     for i in range(len(name)):
         if not name[i] == 'drafts':
             btn = types.InlineKeyboardButton(text = name[i], callback_data = name[i])
