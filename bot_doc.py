@@ -4,11 +4,11 @@ from glob import glob as glob
 import PyPDF2
 import os
 
-API_Token = '6012439320:AAFtduiAl2VTvNkI7y8rrPES9WZkz_YbfDo' if 'AMVERA' in os.environ else '6856931870:AAF7-5nOZXru_0Ebm5ae4yDjmOwfVvF3iI4'
+API_Token = '5934104027:AAFTabSWA4zS1Wqm7xqMgVWBGeQaJ3SSqAM' if 'AMVERA' in os.environ else '6856931870:AAF7-5nOZXru_0Ebm5ae4yDjmOwfVvF3iI4'
 bot = telebot.TeleBot(API_Token)
 
 def names():
-    path = 'D:\Desktop\Программы Питон\поиск файлов бот\data'
+    path = '/data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
     paths = glob(path + '\*')
     names = []
     for i in range(len(paths)):
