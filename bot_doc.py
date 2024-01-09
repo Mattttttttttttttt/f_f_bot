@@ -8,7 +8,7 @@ API_Token = '5934104027:AAFTabSWA4zS1Wqm7xqMgVWBGeQaJ3SSqAM' if 'AMVERA' in os.e
 bot = telebot.TeleBot(API_Token)
 
 def names():
-    path = '/data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
+    path = '\data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
     paths = glob(path + '\*')
     names = []
     for i in range(len(paths)):
