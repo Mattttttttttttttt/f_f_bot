@@ -17,7 +17,8 @@ def names():
         while True:
             names_2.append(paths[i][len(paths[i]) - j])
             costyl = '\ '
-            if paths[i][len(paths[i]) - j] == costyl[0]: break
+            costyl_2 = '/ '
+            if (paths[i][len(paths[i]) - j] == costyl[0] or paths[i][len(paths[i]) - j] == costyl_2[0]): break
             j = j + 1
         names_2 = names_2[0:len(names_2) - 1]
         names.append(' ')
