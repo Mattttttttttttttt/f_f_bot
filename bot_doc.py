@@ -8,7 +8,7 @@ API_Token = '5934104027:AAFTabSWA4zS1Wqm7xqMgVWBGeQaJ3SSqAM' if 'AMVERA' in os.e
 bot = telebot.TeleBot(API_Token)
 
 def names():
-    path = '/data' if 'AMVERA' in os.environ else 'D:/Desktop/Программы Питон/поиск файлов бот/data'
+    path = '/data' if 'AMVERA' in os.environ else 'F:/Desktop/Программы Питон/поиск файлов бот/data'
     paths = glob(path + '/*')
     names = []
     for i in range(len(paths)):
@@ -21,13 +21,13 @@ def names():
             j = j + 1
         names_2 = names_2[0:len(names_2) - 1]
         names.append(' ')
-        for j in range(len(names_2)):
-            names[i] = names[i] + names_2[len(names_2) - 1 - j]
+        for t in range(len(names_2)):
+            names[i] = names[i] + names_2[len(names_2) - 1 - t]
         names[i] = names[i][1:len(names[i])]
     return(names, path)
 
 def paths_pdf(name, id):
-    pp = '/data' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\data'
+    pp = '/data' if 'AMVERA' in os.environ else 'F:\Desktop\Программы Питон\поиск файлов бот\data'
     #bot.send_message(id, text = 'pp' + str(pp))
     base_path = pp + f'/{name}'
     #bot.send_message(id, text = 'base_path' + str(base_path))
@@ -62,7 +62,10 @@ def func1(message, paths):
 #поиск по страницам
 def func2(message, paths, pdf_list):
     text = message.text
-    draft_path ='/data/drafts' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\drafts'
+    if text == '/start':
+        send_welcome(message)
+        return
+    draft_path ='/data/drafts' if 'AMVERA' in os.environ else 'F:\Desktop\Программы Питон\поиск файлов бот\data\drafts'
     c = 0
     pages_list = []
     bot.send_message(message.chat.id, text = 'Обработка запроса (Это может занять время)')
@@ -77,17 +80,19 @@ def func2(message, paths, pdf_list):
                     bot.send_document(message.chat.id,document = open(paths[i], 'rb'))
                 pdf_new = PyPDF2.PdfWriter()
                 pdf_new.add_page(pdf_list[i].pages[j])
-                comand_1 = f'''pdf_new.write('/data/drafts/page_{c}.pdf' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\drafts\page_{c}.pdf')'''
+                comand_1 = f'''pdf_new.write('/data/drafts/page_{c}.pdf' if 'AMVERA' in os.environ else 'F:\Desktop\Программы Питон\поиск файлов бот\data\drafts\page_{c}.pdf')'''
                 exec(comand_1)
-                comand_2 = f'''bot.send_document(message.chat.id, document = open('/data/drafts/page_{c}.pdf' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\drafts\page_{c}.pdf', 'rb'))'''
+                comand_2 = f'''bot.send_document(message.chat.id, document = open('/data/drafts/page_{c}.pdf' if 'AMVERA' in os.environ else 'F:\Desktop\Программы Питон\поиск файлов бот\data\drafts\page_{c}.pdf', 'rb'))'''
                 exec(comand_2)
-                comand_3 = f'''os.remove('/data/drafts/page_{c}.pdf' if 'AMVERA' in os.environ else 'D:\Desktop\Программы Питон\поиск файлов бот\drafts\page_{c}.pdf')'''
+                comand_3 = f'''os.remove('/data/drafts/page_{c}.pdf' if 'AMVERA' in os.environ else 'F:\Desktop\Программы Питон\поиск файлов бот\data\drafts\page_{c}.pdf')'''
                 exec(comand_3)
     if c == 0:
         bot.send_message(message.chat.id, text = 'Совпадений не найдено, попробуёте ещё раз')
         bot.send_message(message.chat.id, text='Введите ключевую фразу')
         bot.register_next_step_handler(message = message, callback =  func2, paths = paths, pdf_list = pdf_list)
-    elif c!= 0: bot.send_message(message.chat.id, text = 'Обработка завершена')
+    elif c!= 0:
+        bot.send_message(message.chat.id, text = 'Обработка завершена')
+        bot.register_next_step_handler(message = message, callback =  func2, paths = paths, pdf_list = pdf_list)
 
 
 
@@ -95,9 +100,9 @@ def func2(message, paths, pdf_list):
 def send_welcome(message):
     bot.send_message(chat_id = message.chat.id, text = 'Приветсвую! Бот имеет собственную базу данных, за вами только выбрать нужный раздел и искать в нём либо по содержанию файлов.\n Совет ищите по точной ключевой фразе или одному слову. Условно поиск рецепта пирога по заданному "мука яйца соль" вряд-ли что найдёт. А вот по "добавьте 20г муки" найти шансов больше))')
     markup = types.InlineKeyboardMarkup(row_width=1)
-    #name, paths = names()
+    name, paths = names()
     #bot.send_document(chat_id = message.chat.id, document = open('\data\ЦС\Лабораторная работа №4 АЦП.pdf', 'rb'))
-    name = ['ЦС', 'ИСИС']
+    #name = ['ЦС', 'ИСИС']
     for i in range(len(name)):
         if not name[i] == 'drafts':
             btn = types.InlineKeyboardButton(text = name[i], callback_data = name[i])
